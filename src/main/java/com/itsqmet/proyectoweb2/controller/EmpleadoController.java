@@ -58,17 +58,25 @@ public class EmpleadoController {
         Optional<Empleado> empleadoOptional = empleadoService.buscarEmpleadosPorId(id);
         if (empleadoOptional.isPresent()) {
             Empleado empleadoExistente = empleadoOptional.get();
+
             empleadoExistente.setNombreCompleto(empleado.getNombreCompleto());
             empleadoExistente.setCorreoElectronico(empleado.getCorreoElectronico());
-            empleadoExistente.setPassword(empleado.getPassword());
             empleadoExistente.setDireccion(empleado.getDireccion());
             empleadoExistente.setFechaNacimiento(empleado.getFechaNacimiento());
             empleadoExistente.setFechaRegistro(empleado.getFechaRegistro());
             empleadoExistente.setGenero(empleado.getGenero());
             empleadoExistente.setRol(empleado.getRol());
             empleadoExistente.setTelefono(empleado.getTelefono());
+
+            // Comparar la contraseña nueva con la ya encriptada en la BD
+            if (!passwordEncoder.matches(empleado.getPassword(), empleadoExistente.getPassword())) {
+                empleadoExistente.setPassword(passwordEncoder.encode(empleado.getPassword()));
+            }
+
             return empleadoService.guardarEmpleado(empleadoExistente);
         }
         return null;
     }
+
+
 }

@@ -42,11 +42,14 @@ public class ConfiguracionSeguridad {
                 .authorizeHttpRequests(auth -> auth
                         // Endpoints públicos
                         .requestMatchers("/clientes/guardar").permitAll()
-                        .requestMatchers("/empleados/registroEmpleado").permitAll()
+                        .requestMatchers("/empleados/registroEmpleado","/productos").permitAll()
+                        .requestMatchers("/pedidos/guardar").permitAll()
+                        .requestMatchers("/productos/actualizarStock/**").permitAll()
+                        .requestMatchers("/clientes/actualizar/**").permitAll()
                         .requestMatchers("/api/login").permitAll()
 
                         // Endpoints protegidos
-                        .requestMatchers("/clientes/**").hasRole("CLIENTE")
+                        .requestMatchers("/clientes/**","/pedidos/**").hasRole("CLIENTE")
                         .requestMatchers("/empleados/guardar").hasRole("EMPLEADO")
                         .requestMatchers("/empleados/**").hasRole("EMPLEADO")
 

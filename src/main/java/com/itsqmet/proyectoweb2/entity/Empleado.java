@@ -9,32 +9,18 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "empleados")
 @Data
-public class Empleado {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @NotBlank
-    private String nombreCompleto;
-
-    @NotBlank
-    @Email
-    private String correoElectronico;
-
-    @NotBlank
-    private String password;
-
-    @NotBlank
-    private String rol;
+public class Empleado extends Usuario {
 
     @NotBlank
     @Column(unique = true)
     private String cedula;
 
     private String direccion;
+
     private LocalDate fechaNacimiento;
+
     private String genero;
+
     private String telefono;
 
     @PastOrPresent
