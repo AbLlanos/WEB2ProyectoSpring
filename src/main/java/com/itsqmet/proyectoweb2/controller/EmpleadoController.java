@@ -1,21 +1,19 @@
 package com.itsqmet.proyectoweb2.controller;
 
+import com.itsqmet.proyectoweb2.entity.Cliente;
 import com.itsqmet.proyectoweb2.entity.Empleado;
 import com.itsqmet.proyectoweb2.services.EmpleadoServices;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-
 @RequestMapping("/empleados")
-
 @CrossOrigin(origins = "http://localhost:4200")
-
-
 public class EmpleadoController {
 
     @Autowired
@@ -27,15 +25,24 @@ public class EmpleadoController {
         return empleadoService.mostrarEmpleados();
     }
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     // Buscar empleado por ID
     @GetMapping("/{id}")
     public Optional<Empleado> buscarPorId(@PathVariable Long id) {
         return empleadoService.buscarEmpleadosPorId(id);
     }
 
-    // Guardar empleado con validación
-    @PostMapping("/guardar")
-    public Empleado guardarEmpleado(@Valid @RequestBody Empleado empleado) {
+    // Registro público seguro (si quieres permitirlo)
+    // Registro público seguro (si quieres permitirlo)
+
+
+
+
+    // Guardar empleado (solo Admin)
+    @PostMapping("/registroEmpleado")
+    public Empleado guardarEmpleado(@RequestBody Empleado empleado) {
         return empleadoService.guardarEmpleado(empleado);
     }
 
@@ -45,13 +52,12 @@ public class EmpleadoController {
         empleadoService.eliminarEmpleado(id);
     }
 
-    // Actualizar empleado con validación
+    // Actualizar empleado
     @PutMapping("/actualizar/{id}")
     public Empleado actualizarEmpleado(@PathVariable Long id, @Valid @RequestBody Empleado empleado) {
         Optional<Empleado> empleadoOptional = empleadoService.buscarEmpleadosPorId(id);
         if (empleadoOptional.isPresent()) {
             Empleado empleadoExistente = empleadoOptional.get();
-            // Actualizar todos los campos
             empleadoExistente.setNombreCompleto(empleado.getNombreCompleto());
             empleadoExistente.setCorreoElectronico(empleado.getCorreoElectronico());
             empleadoExistente.setPassword(empleado.getPassword());
@@ -61,11 +67,8 @@ public class EmpleadoController {
             empleadoExistente.setGenero(empleado.getGenero());
             empleadoExistente.setRol(empleado.getRol());
             empleadoExistente.setTelefono(empleado.getTelefono());
-
             return empleadoService.guardarEmpleado(empleadoExistente);
         }
-
         return null;
     }
-
 }

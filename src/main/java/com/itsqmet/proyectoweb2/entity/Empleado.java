@@ -15,32 +15,28 @@ public class Empleado {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "El nombre completo es obligatorio")
+    @NotBlank
     private String nombreCompleto;
 
-    @NotBlank(message = "El correo electrónico es obligatorio")
-    @Email(message = "Debe ser un correo electrónico válido")
+    @NotBlank
+    @Email
     private String correoElectronico;
 
-    @NotBlank(message = "La contraseña es obligatoria")
+    @NotBlank
     private String password;
 
-    @NotBlank(message = "La dirección es obligatoria")
-    private String direccion;
-
-    @Past(message = "La fecha de nacimiento debe ser anterior a hoy")
-    private LocalDate fechaNacimiento;
-
-    @PastOrPresent(message = "La fecha de registro no puede ser futura")
-    private LocalDate fechaRegistro;
-
-    @NotBlank(message = "El género es obligatorio")
-    private String genero;
-
-    @NotBlank(message = "El rol es obligatorio")
+    @NotBlank
     private String rol;
 
-    @NotBlank(message = "El teléfono es obligatorio")
-    @Pattern(regexp = "\\d{7,15}", message = "El teléfono debe tener entre 7 y 15 dígitos")
+    @NotBlank
+    @Column(unique = true)
+    private String cedula;
+
+    private String direccion;
+    private LocalDate fechaNacimiento;
+    private String genero;
     private String telefono;
+
+    @PastOrPresent
+    private LocalDate fechaRegistro;
 }
