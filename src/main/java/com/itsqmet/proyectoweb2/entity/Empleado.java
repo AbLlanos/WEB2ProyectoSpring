@@ -23,6 +23,5 @@ public class Empleado extends Usuario {
 
     private String telefono;
 
-    @PastOrPresent
     private LocalDate fechaRegistro;
 }
