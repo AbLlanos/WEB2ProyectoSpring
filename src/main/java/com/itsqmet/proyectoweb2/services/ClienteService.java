@@ -24,11 +24,7 @@ public class ClienteService {
     private PasswordEncoder passwordEncoder;
 
     public Cliente guardarCliente(Cliente cliente) {
-        // Encriptar la contraseña antes de guardar
-        if (cliente.getPassword() != null && !cliente.getPassword().isEmpty()) {
-            cliente.setPassword(passwordEncoder.encode(cliente.getPassword()));
-        }
-
+        // Guardar en texto plano
         return clienteRepository.save(cliente);
     }
 
