@@ -31,7 +31,8 @@ public class ConfiguracionSeguridad {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        // ⚠️ Sin encriptado, solo para desarrollo
+        return org.springframework.security.crypto.password.NoOpPasswordEncoder.getInstance();
     }
 
     @Bean

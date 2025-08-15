@@ -3,7 +3,6 @@ package com.itsqmet.proyectoweb2.services;
 import com.itsqmet.proyectoweb2.entity.Empleado;
 import com.itsqmet.proyectoweb2.repository.EmpleadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,9 +14,6 @@ public class EmpleadoServices {
     @Autowired
     private EmpleadoRepository empleadoRepository;
 
-    // Inyector del encriptador de contraseñas
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
     // Obtener todos los empleados
     public List<Empleado> mostrarEmpleados() {
         return empleadoRepository.findAll();
@@ -28,21 +24,15 @@ public class EmpleadoServices {
         return empleadoRepository.findById(id);
     }
 
-    // Guardar empleado con contraseña encriptada
+    // Guardar empleado sin encriptar contraseña
     public Empleado guardarEmpleado(Empleado empleado) {
-        String passwordEncriptada = passwordEncoder.encode(empleado.getPassword());
-        empleado.setPassword(passwordEncriptada);
         return empleadoRepository.save(empleado);
     }
 
-    // Actualizar empleado (encripta solo si cambia la contraseña)
+    // Actualizar empleado sin encriptar
     public Empleado actualizarEmpleado(Long id, Empleado empleado) {
         Optional<Empleado> empleadoExistente = empleadoRepository.findById(id);
         if (empleadoExistente.isPresent()) {
-            if (!empleado.getPassword().equals(empleadoExistente.get().getPassword())) {
-                String passwordEncriptada = passwordEncoder.encode(empleado.getPassword());
-                empleado.setPassword(passwordEncriptada);
-            }
             empleado.setId(id);
             return empleadoRepository.save(empleado);
         }

@@ -62,13 +62,8 @@ public class ClienteController {
             clienteExistente.setCedula(cliente.getCedula());
             clienteExistente.setCorreoElectronico(cliente.getCorreoElectronico());
 
-            // 🔹 Solo actualizar password si viene en texto plano
             if (cliente.getPassword() != null && !cliente.getPassword().isBlank()) {
-                if (!cliente.getPassword().startsWith("$2a$")) {
-                    // Contraseña en texto plano → encriptar
-                    clienteExistente.setPassword(passwordEncoder.encode(cliente.getPassword()));
-                }
-                // Si ya es hash, no hacer nada (mantener original)
+                clienteExistente.setPassword(cliente.getPassword()); // Guardar tal cual
             }
 
             return clienteService.guardarCliente(clienteExistente);

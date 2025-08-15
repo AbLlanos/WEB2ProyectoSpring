@@ -1,11 +1,9 @@
 package com.itsqmet.proyectoweb2.controller;
 
-import com.itsqmet.proyectoweb2.entity.Cliente;
 import com.itsqmet.proyectoweb2.entity.Empleado;
 import com.itsqmet.proyectoweb2.services.EmpleadoServices;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,22 +23,13 @@ public class EmpleadoController {
         return empleadoService.mostrarEmpleados();
     }
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
     // Buscar empleado por ID
     @GetMapping("/{id}")
     public Optional<Empleado> buscarPorId(@PathVariable Long id) {
         return empleadoService.buscarEmpleadosPorId(id);
     }
 
-    // Registro público seguro (si quieres permitirlo)
-    // Registro público seguro (si quieres permitirlo)
-
-
-
-
-    // Guardar empleado (solo Admin)
+    // Guardar empleado
     @PostMapping("/registroEmpleado")
     public Empleado guardarEmpleado(@RequestBody Empleado empleado) {
         return empleadoService.guardarEmpleado(empleado);
@@ -60,9 +49,7 @@ public class EmpleadoController {
             Empleado empleadoExistente = empleadoOptional.get();
             empleadoExistente.setNombreCompleto(empleado.getNombreCompleto());
             empleadoExistente.setCorreoElectronico(empleado.getCorreoElectronico());
-            if (!passwordEncoder.matches(empleado.getPassword(), empleadoExistente.getPassword())) {
-                empleadoExistente.setPassword(passwordEncoder.encode(empleado.getPassword()));
-            }
+            empleadoExistente.setPassword(empleado.getPassword()); // Guardar tal cual
             empleadoExistente.setDireccion(empleado.getDireccion());
             empleadoExistente.setFechaNacimiento(empleado.getFechaNacimiento());
             empleadoExistente.setFechaRegistro(empleado.getFechaRegistro());
